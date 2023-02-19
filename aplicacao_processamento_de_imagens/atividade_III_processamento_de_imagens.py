@@ -1,5 +1,6 @@
 from PyQt5.QtGui import *
 import sys
+from PIL import Image
 from PyQt5.QtCore import Qt, QCoreApplication
 import numpy as np
 import cv2
@@ -72,12 +73,29 @@ class janela_filtro(QMainWindow):
          # Aplica o filtro selecionado com o tamanho selecionado
          indice_valor = self.sizeComboBox.currentIndex()
          if index == 1:
-                imagem = self.filtro_gaussiano(imagem,indice_valor)
+                imagem = self.filtro_gaussiano_quadrado(imagem,indice_valor)
+                img_conver=Image.fromarray(np.uint8(imagem))
+                img_caminho="C:\\Users\\isado\\OneDrive\\Documentos\\aplicacao_processamento_de_imagens\\imagem_gaussiana.png"
+                img_conver.save(img_caminho)
+    
          elif index == 2:
                 imagem = self.filtro_convolucao_gaussiana(imagem,indice_valor)
+                img_conver=Image.fromarray(np.uint8(imagem))
+                img_caminho="C:\\Users\\isado\\OneDrive\\Documentos\\aplicacao_processamento_de_imagens\\imagem_gaussiana_convolucao.png"
+                img_conver.save(img_caminho)
+         else:
+             
+              img_conver=Image.fromarray(np.uint8(imagem))
+              img_caminho="C:\\Users\\isado\\OneDrive\\Documentos\\aplicacao_processamento_de_imagens\\imagem_original.png"
+              img_conver.save(img_caminho)
+        
+                       
+    
 
 
-    def filtro_gaussiano(self, imagem,indice_valor):
+
+
+    def filtro_gaussiano_quadrado(self, imagem, indice_valor):
         # Aqui você pode colocar seu código para aplicar o filtro 1D
         tamanho_mascara = 2*indice_valor + 3
         mascara_sigma = 1.5
@@ -96,6 +114,7 @@ class janela_filtro(QMainWindow):
 
         # Retorna a imagem filtrada
         return filtrar_imagem
+
         
 
     def filtro_convolucao_gaussiana(self, imagem, indice_valor):
